@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class EmployeeController {
     private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController (EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
     @GetMapping("/add")
-    public String add(@RequestParam String firstName, @RequestParam lastName) {
+    public String add(@RequestParam String firstName, @RequestParam String lastName) {
         Employee result = employeeService.add(firstName, lastName);
         return generateMessage(result, "успешно создан");
     }
@@ -27,7 +27,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/find")
-    public String find(@RequestParam String firstName, @RequestParam String lastName) {
+    public Employee find(@RequestParam String firstName, @RequestParam String lastName) {
         return employeeService.find(firstName, lastName);
     }
     private String generateMessage(Employee employee, String status) {
