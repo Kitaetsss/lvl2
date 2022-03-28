@@ -1,11 +1,13 @@
-package lvl2.skypro;
+package lvl2.skypro.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.INSUFFICIENT_STORAGE)
 public class EmployeeOverFlowException extends RuntimeException {
+
     private static final String DEFAULT_MESSAGE = "Книга полная";
+
     public EmployeeOverFlowException() {
         this(DEFAULT_MESSAGE);
     }
