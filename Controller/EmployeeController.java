@@ -1,21 +1,25 @@
-package lvl2.skypro;
+package lvl2.skypro.Controller;
 
+import lvl2.skypro.model.Employee;
+import lvl2.skypro.service.EmployeeService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
     private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController (EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
     @GetMapping("/add")
-    public String add(@RequestParam String firstName, @RequestParam lastName) {
+    public String add(@RequestParam String firstName, @RequestParam String lastName) {
         Employee result = employeeService.add(firstName, lastName);
         return generateMessage(result, "успешно создан");
     }
@@ -27,8 +31,13 @@ public class EmployeeController {
     }
 
     @GetMapping("/find")
-    public String find(@RequestParam String firstName, @RequestParam String lastName) {
+    public Employee find(@RequestParam String firstName, @RequestParam String lastName) {
         return employeeService.find(firstName, lastName);
+    }
+
+    @GetMapping("/all")
+    public Collection<Employee> all(){
+        return employeeService.getAll();
     }
     private String generateMessage(Employee employee, String status) {
         return String.format("Сотрудник %s %s %s.", employee. getLastName(), employee.getFirstName(), status);

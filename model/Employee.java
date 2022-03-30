@@ -1,4 +1,4 @@
-package lvl2.skypro;
+package lvl2.skypro.model;
 
 import java.util.Objects;
 
