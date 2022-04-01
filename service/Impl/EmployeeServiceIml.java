@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public abstract class EmployeeServiceIml implements EmployeeService {
+public class EmployeeServiceIml implements EmployeeService {
     private final List<Employee> employeesList;
 
     public EmployeeServiceIml(){
@@ -53,17 +53,8 @@ public abstract class EmployeeServiceIml implements EmployeeService {
         }
         return employee;
     }
-
     @Override
     public Collection<Employee> getAll() {
-        return List.copyOf(employeesList);
-    }
-    public List<Employee> getEmployeesList() {
-        return employeesList;
-    }
-
-    @Override
-    public Collection<Employee> getall() {
         return employeesList;
     }
 }

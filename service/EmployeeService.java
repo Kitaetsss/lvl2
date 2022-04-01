@@ -17,9 +17,4 @@ public interface EmployeeService {
 
     Collection<Employee> getAll();
 
-    Collection<Employee> getAll(String firstName, String lastName);
-
-    Collection<Employee> getAll(Employee employee);
-
-    Collection<Employee> getall();
 }
