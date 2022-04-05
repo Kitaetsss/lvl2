@@ -1,5 +1,7 @@
 package lvl2.skypro.service.Impl;
 
+import lvl2.skypro.exception.EmployeeExcistsExcetion;
+import lvl2.skypro.exception.EmployeeNotFoundException;
 import lvl2.skypro.exception.EmployeeOverFlowException;
 import lvl2.skypro.model.Employee;
 import lvl2.skypro.service.EmployeeService;
@@ -9,52 +11,51 @@ import java.util.*;
 
 @Service
 public class EmployeeServiceIml implements EmployeeService {
-    private final List<Employee> employeesList;
+    private final Map<String, Employee> employeesBook;
 
     public EmployeeServiceIml(){
-        this.employeesList = new ArrayList<>();
+        employeesBook = new HashMap<>();
     }
 
     @Override
     public Employee add(String firstName, String lastName){
-        Employee newEmployee = new Employee(firstName, lastName);
-        return add(newEmployee);
-    }
+        String key = getKey(firstName, lastName);
 
-    @Override
-    public Employee add(Employee employee){
-        if(!employeesList.contains(employee)){
-            throw new EmployeeOverFlowException();
+        if(employeesBook.containsKey(key)) {
+            throw new EmployeeExcistsExcetion.EmployeeExistsException("Сотрудник уже есть в списке");
         }
-        employeesList.add(employee);
-
-        return employee;
-
+        Employee newEmployee = new Employee(firstName, lastName);
+        employeesBook.put(key, newEmployee);
+        return newEmployee;
     }
+
     @Override
     public Employee remove(String firstName, String lastName){
-        Employee newEmployee = new Employee(firstName, lastName);
-        return remove(newEmployee);
+        String key = getKey(firstName, lastName);
 
-    }
-    @Override
-    public Employee remove(Employee employee) {
-        if (!employeesList.remove(employee)){
-            throw new EmployeeOverFlowException();
+        if(employeesBook.remove(key) == null) {
+            throw new EmployeeNotFoundException("Сотрудника нет в списке");
         }
-        return employee;
+        Employee removedEmployee = new Employee(firstName, lastName);
+        return removedEmployee;
     }
 
     @Override
     public Employee find(String firstName, String lastName){
-        Employee employee = null;
-        if (!employeesList.contains(employee)) {
-            throw new EmployeeOverFlowException();
+        String key = getKey(firstName, lastName);
+
+        Employee employee = employeesBook.get(key);
+        if(employee == null) {
+            throw new EmployeeNotFoundException("Сотрудника нет в списке");
         }
         return employee;
     }
+
     @Override
     public Collection<Employee> getAll() {
-        return employeesList;
+        return Collections.unmodifiableCollection(employeesBook.values());
+    }
+    private String getKey(String firstName, String lastName) {
+        return firstName + " " + lastName;
     }
 }
